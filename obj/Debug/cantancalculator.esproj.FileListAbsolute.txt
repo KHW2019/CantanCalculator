@@ -1,0 +1,2 @@
+C:\Users\User\source\repos\CantanCalculator\obj\Debug\cantancalculator.esproj.SuggestedBindingRedirects.cache
+C:\Users\User\source\repos\CantanCalculator\obj\Debug\cantancalculator.esproj.CoreCompileInputs.cache
