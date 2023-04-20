@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { PlayerInfo } from './PlayerForm';
 import { colorOptions } from './PlayerForm';
+import PlayerPoints from './PlayerPoints';
 
 interface PlayerListProps {
     players: PlayerInfo[];
@@ -18,12 +19,29 @@ const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit }) => {
         setEditingPlayer(null);
     };
 
+    const isPlayerNameUnique = (nameToCheck: string) => {
+        const matchingPlayers = players.filter(
+            (player) =>
+                player.playerName === nameToCheck
+        );
+        return matchingPlayers.length === 0;
+    }
+
     const saveEditingPlayer = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        let isNameUnique = true;
+
         if (editingPlayer) {
-            onPlayerEdit(editingPlayer);
-            setEditingPlayer(editingPlayer);
-            cencelEditingPlayer();
+            isNameUnique = isPlayerNameUnique(editingPlayer.playerName);
+
+            if (isNameUnique) {
+                onPlayerEdit(editingPlayer);
+                setEditingPlayer(editingPlayer);
+                cencelEditingPlayer();
+            } else {
+                alert ("You cant change to a name that already exist")
+            }
+            
         }
     };
 
@@ -37,6 +55,7 @@ const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit }) => {
                         <button onClick={() => startEditingPlayer(player)}>
                             Edit
                         </button>
+                        <PlayerPoints players={players}></PlayerPoints>
                     </li>
                 ))}
             </ul>
