@@ -67,16 +67,6 @@ function PlayerForm() {
         setplayer(updatePlayers);
     }
 
-    const handleDeletePlayer = (playerName: string) => {
-        const updatePlayers = players.filter((player) => player.playerName !== playerName);
-        setplayer(updatePlayers);
-        setColorOptionsState(prevColorOptions => prevColorOptions.map((Option) => {
-            if (Option.color === playerColor) {
-                return { ...Option, disabled: false };
-            }
-            return Option;
-        }));
-    }
 
     return (
         <>
@@ -120,6 +110,7 @@ function PlayerForm() {
             </form>
             <ul>
                 <PlayerList players={players} onPlayerEdit={handelEditPlayer}></PlayerList>
+                
             </ul>
         </>
     );
