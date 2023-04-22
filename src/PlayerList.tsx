@@ -6,9 +6,10 @@ import PlayerPoints from './PlayerPoints';
 interface PlayerListProps {
     players: PlayerInfo[];
     onPlayerEdit: (player: PlayerInfo) => void;
+    onPlayerDelete: (player: PlayerInfo) => void;
 }
 
-const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit }) => {
+const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit, onPlayerDelete }) => {
     const [editingPlayer, setEditingPlayer] = useState<PlayerInfo | null>(null);
 
     const startEditingPlayer = (player: PlayerInfo) => {
@@ -45,6 +46,10 @@ const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit }) => {
         }
     };
 
+    const deletePlayer = (player: PlayerInfo) => {
+        onPlayerDelete(player);
+    }
+
     return (
         <>
             <h2>Player list</h2>
@@ -55,7 +60,10 @@ const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit }) => {
                         <button onClick={() => startEditingPlayer(player)}>
                             Edit
                         </button>
-                        <PlayerPoints players={players}></PlayerPoints>
+                        <button onClick={() => deletePlayer(player)}>
+                            Delete
+                        </button>
+                        <PlayerPoints></PlayerPoints>
                     </li>
                 ))}
             </ul>

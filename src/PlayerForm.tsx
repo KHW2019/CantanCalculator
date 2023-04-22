@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PlayerList from './PlayerList';
+import PlayerPoint from './PlayerPoints';   
 
 export interface PlayerInfo {
     playerId: number;
@@ -20,7 +21,7 @@ function PlayerForm() {
     const [playerName, setName] = useState('');
     const [playerColor, setColor] = useState('');
     const [playerId, setId] = useState<number>(1);
-    const [players, setplayer] = useState<PlayerInfo[]>([]);
+    const [players, setPlayers] = useState<PlayerInfo[]>([]);
     const [colorOptionState, setColorOptionsState] = useState<colorOptions[]>(colorOptions);
 
     const addPlayer = (event: React.FormEvent<HTMLFormElement>) => {
@@ -42,7 +43,7 @@ function PlayerForm() {
             return 
         } else {
             const newPlayer: PlayerInfo = { playerId: playerId, playerName, playerColor }; 
-            setplayer([...players, newPlayer]);
+            setPlayers([...players, newPlayer]);
             setColorOptionsState(prevColorOptions => prevColorOptions.map((Option) => {
                 if (Option.color === playerColor) {
                     return { ...Option, disabled: true };
@@ -50,23 +51,40 @@ function PlayerForm() {
                 return Option;
             }));
 
-            setId(prevNextId => prevNextId + 1);
+            setId(prevPlayerId => prevPlayerId + 1);
             setName('');
             setColor('');
         }
     }
 
     const handelEditPlayer = (editedPlayer: PlayerInfo) => {
-        const updatePlayers = players.map((player) => {
-            if (player.playerId === editedPlayer.playerId) {
+        const updatePlayers = players.map((p) => {
+            if (p.playerId === editedPlayer.playerId) {
                 return editedPlayer;
             } else {
-                return player;
+                return p;
             }
         });
-        setplayer(updatePlayers);
+        setPlayers(updatePlayers);
     }
 
+    const deletePlayer = (player: PlayerInfo) => {
+        setPlayers(players.filter(player => player.playerId !== player.playerId));
+        setColorOptionsState((prevColorOptions) =>
+            prevColorOptions.map((Option) => {
+                if (Option.color === player.playerColor) {
+                    return { ...Option, disabled: false }
+                }
+                return Option;
+            })
+        )
+    }
+
+    //const checkWinner = () => {
+    //    //if () {
+            
+    //    //}
+    //}
 
     return (
         <>
@@ -109,8 +127,7 @@ function PlayerForm() {
                 <button type="submit">Add Player</button>
             </form>
             <ul>
-                <PlayerList players={players} onPlayerEdit={handelEditPlayer}></PlayerList>
-                
+                <PlayerList players={players} onPlayerEdit={handelEditPlayer} onPlayerDelete={deletePlayer}></PlayerList>
             </ul>
         </>
     );

@@ -1,11 +1,4 @@
-import { type } from "@testing-library/user-event/dist/type";
-import { totalmem } from "os";
 import React, { useState } from "react";
-import PlayerForm, { PlayerInfo } from "./PlayerForm";
-
-type props = {
-    players: PlayerInfo[];
-}
 
 type numberOfProperty = {
     city: number;
@@ -13,20 +6,19 @@ type numberOfProperty = {
 }
 
 const CITY_VALUE = 2;
-const SETTELMENT_VALUE = 1;
 const MAX_SETTELMENTS = 5;
 const MAX_CITIES = 4;
 const WINNING_POINTS = 10;
 
-//players not being used yet it will be use later when checkwinner method has implmented
-const PlayerPoint: React.FC<props> = ({ players }) => {
+
+const PlayerPoint: React.FC = () => {
     const [playerPoints, setPlayerPoints] = useState<numberOfProperty>({
         city: 0,
         settelment: 2
     });
 
     const addSettelment = () => {
-        if (Total_Points + SETTELMENT_VALUE <= WINNING_POINTS && playerPoints.settelment <= MAX_SETTELMENTS) {
+        if (Total_Points <= WINNING_POINTS && playerPoints.settelment < MAX_SETTELMENTS) {
             setPlayerPoints((prevPoints) => ({
                 ...prevPoints,
                 settelment: prevPoints.settelment + 1
@@ -43,7 +35,7 @@ const PlayerPoint: React.FC<props> = ({ players }) => {
     }
 
     const addCity = () => {
-        if (Total_Points + CITY_VALUE <= WINNING_POINTS && playerPoints.city < MAX_CITIES && playerPoints.settelment > 0) {
+        if (Total_Points < WINNING_POINTS && playerPoints.city < MAX_CITIES && playerPoints.settelment > 0) {
             setPlayerPoints((prevPoints) => ({
                 ...prevPoints,
                 city: prevPoints.city + 1,
@@ -62,31 +54,24 @@ const PlayerPoint: React.FC<props> = ({ players }) => {
         }
     }
 
-    //check is the player hit 10 points if so display winner's name'
-    //const checkWinner = () => {
-    //    if (Total_Points >= 10) {
-
-    //    }
-    //}
-
     const Total_Points = playerPoints.city * CITY_VALUE + playerPoints.settelment;
 
     return (
         <div>
             <div>
-                <h2>Settelment</h2>
+                <h4>Settelment</h4>
                 <button onClick={addSettelment}>+</button>
                 {playerPoints.settelment}
                 <button onClick={removeSettelment}>-</button>
             </div>
             <div>
-                <h2>City</h2>
+                <h4>City</h4>
                 <button onClick={addCity}>+</button>
                 {playerPoints.city}
                 <button onClick={removeCity}>-</button>
             </div>
             <div>
-                <h2>Player Points</h2>
+                <h4>Player Points</h4>
                 {Total_Points}
             </div>
         </div>
