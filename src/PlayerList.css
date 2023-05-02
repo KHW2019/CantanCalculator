@@ -1,0 +1,32 @@
+.containerL {
+    text-align:left;
+    padding:10px;
+    /*border: 10px solid red;*/
+}
+
+.calculator {
+    justify-content: center;
+    /*border:10px solid red;*/
+}
+
+.funcButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /*border:10px solid red;*/
+}
+
+.playerNameL, .playerColourL{
+   margin-left:10px;
+   /*border:10px solid red;*/
+}
+
+
+.editButton + .deleteButton {
+    margin-left: 10px;
+}
+
+.editButton{
+    /*border:10px solid red;*/
+    margin-left:10px;
+}

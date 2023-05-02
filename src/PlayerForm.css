@@ -1,0 +1,24 @@
+.container {
+    display: flex;
+    padding:10px;
+    border:10px solid red;
+    align-content:center;
+}
+
+.form{
+   border:10px solid red;
+   margin-right:10px;
+   padding:10px;
+   
+}
+
+.playerForm, .playerList {
+    padding:0px;
+
+}
+
+.playerList{
+    border:10px solid red;
+    margin-left:200px;
+
+}

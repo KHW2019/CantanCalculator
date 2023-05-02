@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import "./PlayerList.css"
 import { PlayerInfo } from './PlayerForm';
 import { colorOptions } from './PlayerForm';
 import PlayerPoints from './PlayerPoints';
+import { platform } from 'os';
 
 interface PlayerListProps {
     players: PlayerInfo[];
@@ -20,10 +22,10 @@ const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit, onPlayer
         setEditingPlayer(null);
     };
 
-    const isPlayerNameUnique = (nameToCheck: string) => {
+    const isPlayerNameUnique = (nameToCheck: string, IdCheck: number) => {
         const matchingPlayers = players.filter(
             (player) =>
-                player.playerName === nameToCheck
+                player.playerName === nameToCheck && player.playerId !== IdCheck
         );
         return matchingPlayers.length === 0;
     }
@@ -33,14 +35,14 @@ const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit, onPlayer
         let isNameUnique = true;
 
         if (editingPlayer) {
-            isNameUnique = isPlayerNameUnique(editingPlayer.playerName);
+            isNameUnique = isPlayerNameUnique(editingPlayer.playerName, editingPlayer.playerId);
 
-            if (isNameUnique) {
+            if (!isNameUnique) {
+                alert("The name already exist")
+            } else {
                 onPlayerEdit(editingPlayer);
                 setEditingPlayer(editingPlayer);
                 cencelEditingPlayer();
-            } else {
-                alert ("You cant change to a name that already exist")
             }
             
         }
@@ -51,16 +53,17 @@ const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit, onPlayer
     }
 
     return (
-        <>
+        <div className="containerL">
             <h2>Player list</h2>
-            <ul>
+            <ul className="calculator">
                 {players.map((player, index) => (
-                    <li key={index}>
-                        {player.playerName}-{player.playerColor}
-                        <button onClick={() => startEditingPlayer(player)}>
+                    <li className="funcButton" key={index}>
+                        <div className="playerNameL">Name: {player.playerName}</div>
+                        <div className="playerColourL">Colour: {player.playerColor}</div>
+                        <button className= "editButton" onClick={() => startEditingPlayer(player)}>
                             Edit
                         </button>
-                        <button onClick={() => deletePlayer(player)}>
+                        <button className="deleteButton" onClick={() => deletePlayer(player)}>
                             Delete
                         </button>
                         <PlayerPoints></PlayerPoints>
@@ -103,7 +106,7 @@ const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit, onPlayer
                     </div>
                 </form>
             )}
-        </>
+        </div>
     )
 }
 

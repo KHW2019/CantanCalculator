@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './PlayerForm.css';
 import PlayerList from './PlayerList';
 import PlayerPoint from './PlayerPoints';   
 
@@ -20,7 +21,7 @@ export const colorOptions = availableColors.map((color) => ({ color, disabled: f
 function PlayerForm() {
     const [playerName, setName] = useState('');
     const [playerColor, setColor] = useState('');
-    const [playerId, setId] = useState<number>(1);
+    const [Id, setId] = useState<number>(0);
     const [players, setPlayers] = useState<PlayerInfo[]>([]);
     const [colorOptionState, setColorOptionsState] = useState<colorOptions[]>(colorOptions);
 
@@ -42,7 +43,7 @@ function PlayerForm() {
             alert("First time playing cantan? You cant play it more then 6 people!")
             return 
         } else {
-            const newPlayer: PlayerInfo = { playerId: playerId, playerName, playerColor }; 
+            const newPlayer: PlayerInfo = { playerId: Id, playerName, playerColor }; 
             setPlayers([...players, newPlayer]);
             setColorOptionsState(prevColorOptions => prevColorOptions.map((Option) => {
                 if (Option.color === playerColor) {
@@ -68,16 +69,17 @@ function PlayerForm() {
         setPlayers(updatePlayers);
     }
 
-    const deletePlayer = (player: PlayerInfo) => {
-        setPlayers(players.filter(player => player.playerId !== player.playerId));
+    const deletePlayer = (playerToDelete: PlayerInfo) => {
+        setPlayers(prevPlayers => prevPlayers.filter(player => player.playerId !== playerToDelete.playerId));
         setColorOptionsState((prevColorOptions) =>
             prevColorOptions.map((Option) => {
-                if (Option.color === player.playerColor) {
+                if (Option.color === playerToDelete.playerColor) {
                     return { ...Option, disabled: false }
                 }
                 return Option;
             })
         )
+
     }
 
     //const checkWinner = () => {
@@ -87,49 +89,56 @@ function PlayerForm() {
     //}
 
     return (
-        <>
-            <form onSubmit={addPlayer}>
+        <div className="container">
+            <div className="form">
+                <form onSubmit={addPlayer}>
+                    <h1>Please Enter Your Player Details</h1>
+                    <div className="playerName_Field">
+                        <label htmlFor="playerName">Player Name: </label>
+                        <input
+                            id="Playername"
+                            type="text"
+                            placeholder="Name eg.idiot 1"
+                            value={playerName}
+                            onChange={(event) => setName(event.target.value)}
+                        />
+                    </div>
 
-                <div className="playerName_Field">
-                    <label htmlFor="playerName">Player Name: </label>
-                    <input
-                        id="Playername"
-                        type="text"
-                        placeholder="Name eg.idiot 1"
-                        value={playerName}
-                        onChange={(event) => setName(event.target.value)}
-                    />
-                </div>
-
-                <div className="playerColor_Field">
-                    <label htmlFor="plyaerColor">Player Color: </label>
-                    <select
-                        value={playerColor}
-                        onChange={(event) => setColor(event.target.value)}
-                    >
-                        <option value="" disabled>
-                            --Please Choose a color--
-                        </option>
-                        {colorOptions.map((Option) => (
-                            <option
-                                key={Option.color}
-                                value={Option.color}
-                                disabled={Option.disabled || players.some(
-                                    (p) => p.playerColor === Option.color
-                                )} 
-                            >
-                                {Option.color}
+                    <div className="playerColor_Field">
+                        <label htmlFor="plyaerColor">Player Color: </label>
+                        <select
+                            value={playerColor}
+                            onChange={(event) => setColor(event.target.value)}
+                        >
+                            <option value="" disabled>
+                                --Please Choose a color--
                             </option>
-                        ))}
-                    </select>
-                </div>
+                            {colorOptions.map((Option) => (
+                                <option
+                                    key={Option.color}
+                                    value={Option.color}
+                                    disabled={Option.disabled || players.some(
+                                        (p) => p.playerColor === Option.color
+                                    )}
+                                >
+                                    {Option.color}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                <button type="submit">Add Player</button>
-            </form>
-            <ul>
+                    <button type="submit">Add Player</button>
+                </form>
+                <div className="notification_container">
+                    <div className="notification_message"></div>
+                </div>
+            </div>
+
+            <ul className="playerList">
                 <PlayerList players={players} onPlayerEdit={handelEditPlayer} onPlayerDelete={deletePlayer}></PlayerList>
             </ul>
-        </>
+
+        </div>
     );
 }
 

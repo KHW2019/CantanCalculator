@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./PlayerPoints.css"
 
 type numberOfProperty = {
     city: number;
@@ -57,21 +58,21 @@ const PlayerPoint: React.FC = () => {
     const Total_Points = playerPoints.city * CITY_VALUE + playerPoints.settelment;
 
     return (
-        <div>
-            <div>
+        <div className = "container">
+            <div className="settelement">
                 <h4>Settelment</h4>
-                <button onClick={addSettelment}>+</button>
+                <button className="addSettelmentBT"onClick={addSettelment}>+</button>
                 {playerPoints.settelment}
-                <button onClick={removeSettelment}>-</button>
+                <button className="subtractSettelmentBT" onClick={removeSettelment}>-</button>
             </div>
-            <div>
+            <div className="city">
                 <h4>City</h4>
-                <button onClick={addCity}>+</button>
+                <button className="addCityBT" onClick={addCity}>+</button>
                 {playerPoints.city}
-                <button onClick={removeCity}>-</button>
+                <button className="subtractCityBT" onClick={removeCity}>-</button>
             </div>
-            <div>
-                <h4>Player Points</h4>
+            <div className="pp">
+                <h4>Player Points :</h4>
                 {Total_Points}
             </div>
         </div>

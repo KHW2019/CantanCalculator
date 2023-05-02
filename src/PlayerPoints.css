@@ -1,0 +1,19 @@
+.container {
+    /*display: flex;*/
+    /*justify-content: space-between*/
+}
+
+.settelement {
+    text-align: center;
+    padding: 10px;
+}
+
+.city {
+    text-align:center;
+    padding: 10px;
+}
+
+.pp {
+    text-align: center;
+    padding: 10px;
+}
