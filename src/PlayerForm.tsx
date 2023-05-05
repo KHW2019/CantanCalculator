@@ -14,7 +14,7 @@ interface colorOptions {
     disabled: boolean;
 }
 
-const availableColors = ['red', 'blue', 'green', 'yellow', 'black' , 'purple']
+const availableColors = ['Red', 'Blue', 'Green', 'Yellow', 'Black' , 'Purple']
 
 export const colorOptions = availableColors.map((color) => ({ color, disabled: false }));
 
@@ -28,19 +28,19 @@ function PlayerForm() {
     const addPlayer = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!playerName) {
-            alert("You must be the first human without a name... PUT YOUR NAME IN THE BOX!!!!")
+            alert("Please entering a name")
             return;
         }
         else if (!playerColor) {
-            alert("Are you color blind ? PICK A COLOR!!!!!")
+            alert("Please select a colour")
             return;
         }
         else if (players.some(p => p.playerName === playerName)) {
-            alert("oh so you are the type of people loves to copy others, Use another name ")
+            alert("Player name already exist ")
             return;
         } 
         else if (players.length >= 6) {
-            alert("First time playing cantan? You cant play it more then 6 people!")
+            alert("You cant have more then 6 people in a game")
             return 
         } else {
             const newPlayer: PlayerInfo = { playerId: Id, playerName, playerColor }; 
@@ -70,6 +70,17 @@ function PlayerForm() {
     }
 
     const deletePlayer = (playerToDelete: PlayerInfo) => {
+
+        const newPlayers = players.filter(p => p.playerId !== playerToDelete.playerId);
+        setPlayers(newPlayers);
+
+        const updatedPlayers = newPlayers.map((p, index) => ({
+            ...p,
+            Id: index + 1,
+        }));
+
+        setPlayers(updatedPlayers);
+
         setPlayers(prevPlayers => prevPlayers.filter(player => player.playerId !== playerToDelete.playerId));
         setColorOptionsState((prevColorOptions) =>
             prevColorOptions.map((Option) => {

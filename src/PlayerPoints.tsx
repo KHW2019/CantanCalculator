@@ -58,21 +58,21 @@ const PlayerPoint: React.FC = () => {
     const Total_Points = playerPoints.city * CITY_VALUE + playerPoints.settelment;
 
     return (
-        <div className = "container">
-            <div className="settelement">
-                <h4>Settelment</h4>
+        <div className = "containerPP">
+            <div className="settelment">
+                <h4 className="settelmentTitle">Settelment</h4>
                 <button className="addSettelmentBT"onClick={addSettelment}>+</button>
                 {playerPoints.settelment}
                 <button className="subtractSettelmentBT" onClick={removeSettelment}>-</button>
             </div>
             <div className="city">
-                <h4>City</h4>
+                <h4 className="cityTitle">City</h4>
                 <button className="addCityBT" onClick={addCity}>+</button>
                 {playerPoints.city}
                 <button className="subtractCityBT" onClick={removeCity}>-</button>
             </div>
             <div className="pp">
-                <h4>Player Points :</h4>
+                <h4 className="ppTitle">Player Points :</h4>
                 {Total_Points}
             </div>
         </div>

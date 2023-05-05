@@ -1,32 +1,61 @@
-.containerL {
-    text-align:left;
-    padding:10px;
-    /*border: 10px solid red;*/
+
+/* position of title*/
+.title{
+    margin-top: 0px;
 }
 
+/*The container of the entire player list not include title*/
 .calculator {
-    justify-content: center;
-    /*border:10px solid red;*/
+    padding: 5px;
+    float:left;
 }
 
-.funcButton {
+/*Container of Player Inform and calculator */
+.listOfPlayerContainer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content:space-between;
     /*border:10px solid red;*/
+    padding:10px;
 }
 
+/* The gap between the player Name and player Colour*/
 .playerNameL, .playerColourL{
    margin-left:10px;
-   /*border:10px solid red;*/
 }
-
-
+/*The gap between the edit button and delete Button */
 .editButton + .deleteButton {
     margin-left: 10px;
 }
 
+/* position of the edit button*/
 .editButton{
-    /*border:10px solid red;*/
     margin-left:10px;
+}
+
+/*Player Information container*/
+.playerInform{
+    display: flex;
+    align-items: center;
+    margin-top:-50px;
+    padding:10px;
+}
+
+/*calculator container*/
+.ppContainerL{
+    
+}
+
+/*edit form conatiner*/
+.editFormContainer {
+    float:right;
+    position:fixed;
+    top:50px;
+    right:50px;
+    padding:10px;
+}
+
+/*gap between save and cancel button in editing*/
+.editSubmitButton +.cancelEditButton{
+    margin:10px;
 }

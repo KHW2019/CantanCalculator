@@ -1,16 +1,38 @@
-.container {
-    /*display: flex;*/
-    /*justify-content: space-between*/
+/*layout of the container of calculator*/
+.containerPP {
+    display: flex;
+    margin-right:0px;
+    /*border: 10px solid red;*/
+    padding: 10px;
 }
 
-.settelement {
+/* position of settelment title*/
+.settelmentTitle{
+    margin-top:0px;
+}
+
+/* settelment container */
+.settelment {
     text-align: center;
     padding: 10px;
+    /*border: 10px solid red;*/
+}
+
+.addSettelmentBT{
+    margin-left: 10px;
+}
+
+.cityTitle{
+    margin-top:0px;
 }
 
 .city {
     text-align:center;
     padding: 10px;
+}
+
+.ppTitle{
+    margin-top:0px;
 }
 
 .pp {

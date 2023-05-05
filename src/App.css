@@ -2,20 +2,24 @@
   text-align: center;
 }
 
+/*logo position*/
 .App-logo {
     height: 100px;
-    /*border: 10px solid red;*/
 }
 
+/*Top navigation */
 .img_container{
     margin-left:10px;
     margin-top:10px;
+    width: 40%;
 }
 
+/*The background of the website  page*/
 .screenHolder {
     background-color: orangered;
     padding: 20px;
     background-repeat: no-repeat;
     background-size:cover;
+    
 }
 

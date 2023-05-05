@@ -1,24 +1,31 @@
+
+/*layout of the entire page*/
 .container {
     display: flex;
     padding:10px;
-    border:10px solid red;
     align-content:center;
+    /*justify-content: space-between;*/
+    
 }
 
+/* Form container */
+/*note: this container have a fix size PLEASE DO NOT CHANGE*/
 .form{
-   border:10px solid red;
-   margin-right:10px;
    padding:10px;
-   
+   /*border: 10px solid red;*/
+   width: 300px;
+   height: 200px;
 }
 
+/* gap between player form and player list*/
 .playerForm, .playerList {
-    padding:0px;
+    margin-left:50px;
 
 }
 
+/* layout of the entire player list*/
 .playerList{
-    border:10px solid red;
-    margin-left:200px;
-
+    padding:10px;
+    margin-top:-100px;
+    /*border: 10px solid red;*/
 }
