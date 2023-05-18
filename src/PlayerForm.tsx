@@ -3,48 +3,64 @@ import './PlayerForm.css';
 import PlayerList from './PlayerList';
 import PlayerPoint from './PlayerPoints';   
 
+//setUp player Information
 export interface PlayerInfo {
     playerId: number;
     playerName: string;
     playerColor: string;
 }
 
+//colorOptions Status
 interface colorOptions {
     color: string;
     disabled: boolean;
 }
 
+//list of avaliable colour
 const availableColors = ['Red', 'Blue', 'Green', 'Yellow', 'Black' , 'Purple']
 
+//default status of all color using map
 export const colorOptions = availableColors.map((color) => ({ color, disabled: false }));
 
+//Function of PlayerForm
 function PlayerForm() {
+    // default setting of all player inforamtion
     const [playerName, setName] = useState('');
     const [playerColor, setColor] = useState('');
     const [Id, setId] = useState<number>(0);
     const [players, setPlayers] = useState<PlayerInfo[]>([]);
     const [colorOptionState, setColorOptionsState] = useState<colorOptions[]>(colorOptions);
 
+      //add Player function trggier when button is pressed
     const addPlayer = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        
+        //check player details
+        //if name empty
         if (!playerName) {
             alert("Please entering a name")
             return;
         }
+        //if colour empty
         else if (!playerColor) {
             alert("Please select a colour")
             return;
         }
+        // if player name already exist
         else if (players.some(p => p.playerName === playerName)) {
             alert("Player name already exist ")
             return;
         } 
+        //if player number is equal or more then 6
         else if (players.length >= 6) {
             alert("You cant have more then 6 people in a game")
             return 
         } else {
+        // add player to the list 
             const newPlayer: PlayerInfo = { playerId: Id, playerName, playerColor }; 
             setPlayers([...players, newPlayer]);
+        
+        //set the selected color in map to ture
             setColorOptionsState(prevColorOptions => prevColorOptions.map((Option) => {
                 if (Option.color === playerColor) {
                     return { ...Option, disabled: true };
@@ -52,13 +68,16 @@ function PlayerForm() {
                 return Option;
             }));
 
+            //set id base on the pervious id number +1 
             setId(prevPlayerId => prevPlayerId + 1);
             setName('');
             setColor('');
         }
     }
 
+    // update player information
     const handelEditPlayer = (editedPlayer: PlayerInfo) => {
+        // check the player id thought the map
         const updatePlayers = players.map((p) => {
             if (p.playerId === editedPlayer.playerId) {
                 return editedPlayer;
@@ -69,11 +88,13 @@ function PlayerForm() {
         setPlayers(updatePlayers);
     }
 
+    //delect player information
     const deletePlayer = (playerToDelete: PlayerInfo) => {
-
+        // remove other player who doesnt match the player id we are looking for
         const newPlayers = players.filter(p => p.playerId !== playerToDelete.playerId);
         setPlayers(newPlayers);
-
+        
+        //incrase the current player id in the list by 1
         const updatedPlayers = newPlayers.map((p, index) => ({
             ...p,
             Id: index + 1,
@@ -98,7 +119,7 @@ function PlayerForm() {
             
     //    //}
     //}
-
+    
     return (
         <div className="container">
             <div className="form">
