@@ -90,7 +90,7 @@ function PlayerForm() {
 
     //delect player information
     const deletePlayer = (playerToDelete: PlayerInfo) => {
-        // remove other player who doesnt have the same player id in the array
+        // remove other player who doesnt match the player id we are looking for
         const newPlayers = players.filter(p => p.playerId !== playerToDelete.playerId);
         setPlayers(newPlayers);
         
