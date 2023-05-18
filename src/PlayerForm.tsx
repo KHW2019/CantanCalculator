@@ -19,7 +19,7 @@ interface colorOptions {
 //list of avaliable colour
 const availableColors = ['Red', 'Blue', 'Green', 'Yellow', 'Black' , 'Purple']
 
-//default status of all color
+//default status of all color using map
 export const colorOptions = availableColors.map((color) => ({ color, disabled: false }));
 
 //Function of PlayerForm
