@@ -1,23 +1,28 @@
 import React, { useState } from "react";
 import "./PlayerPoints.css"
 
+//properties holder
 type numberOfProperty = {
     city: number;
     settelment: number;
 }
 
+//value of the variables 
 const CITY_VALUE = 2;
 const MAX_SETTELMENTS = 5;
 const MAX_CITIES = 4;
 const WINNING_POINTS = 10;
 
 
+//player point function
 const PlayerPoint: React.FC = () => {
+// set up default value of player starting number
     const [playerPoints, setPlayerPoints] = useState<numberOfProperty>({
         city: 0,
         settelment: 2
     });
-
+    
+    // add settlement func
     const addSettelment = () => {
         if (Total_Points <= WINNING_POINTS && playerPoints.settelment < MAX_SETTELMENTS) {
             setPlayerPoints((prevPoints) => ({
@@ -26,6 +31,7 @@ const PlayerPoint: React.FC = () => {
             }))
         }
     }
+    //remove settelment func
     const removeSettelment = () => {
         if (playerPoints.settelment > 0) {
             setPlayerPoints((prevPoints) => ({
@@ -34,7 +40,8 @@ const PlayerPoint: React.FC = () => {
             }))
         }
     }
-
+    
+    //add City func
     const addCity = () => {
         if (Total_Points < WINNING_POINTS && playerPoints.city < MAX_CITIES && playerPoints.settelment > 0) {
             setPlayerPoints((prevPoints) => ({
@@ -44,7 +51,8 @@ const PlayerPoint: React.FC = () => {
             }))
         }
     }
-
+    
+    //remove City func
     const removeCity = () => {
         if (playerPoints.city > 0) {
             setPlayerPoints((prevPoints) => ({
@@ -54,7 +62,8 @@ const PlayerPoint: React.FC = () => {
             }))
         }
     }
-
+    
+    // Total points of the player
     const Total_Points = playerPoints.city * CITY_VALUE + playerPoints.settelment;
 
     return (
