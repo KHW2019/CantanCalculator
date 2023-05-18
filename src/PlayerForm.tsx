@@ -3,21 +3,25 @@ import './PlayerForm.css';
 import PlayerList from './PlayerList';
 import PlayerPoint from './PlayerPoints';   
 
+//setUp player Information
 export interface PlayerInfo {
     playerId: number;
     playerName: string;
     playerColor: string;
 }
 
+//colorOptions Status
 interface colorOptions {
     color: string;
     disabled: boolean;
 }
 
+//list of avaliable colour
 const availableColors = ['Red', 'Blue', 'Green', 'Yellow', 'Black' , 'Purple']
 
 export const colorOptions = availableColors.map((color) => ({ color, disabled: false }));
 
+//Function of PlayerForm
 function PlayerForm() {
     const [playerName, setName] = useState('');
     const [playerColor, setColor] = useState('');
@@ -25,8 +29,11 @@ function PlayerForm() {
     const [players, setPlayers] = useState<PlayerInfo[]>([]);
     const [colorOptionState, setColorOptionsState] = useState<colorOptions[]>(colorOptions);
 
+      //add Player function
     const addPlayer = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        
+        //check player details
         if (!playerName) {
             alert("Please entering a name")
             return;
@@ -58,6 +65,7 @@ function PlayerForm() {
         }
     }
 
+    // update player information
     const handelEditPlayer = (editedPlayer: PlayerInfo) => {
         const updatePlayers = players.map((p) => {
             if (p.playerId === editedPlayer.playerId) {
@@ -69,6 +77,7 @@ function PlayerForm() {
         setPlayers(updatePlayers);
     }
 
+    //delect player information
     const deletePlayer = (playerToDelete: PlayerInfo) => {
 
         const newPlayers = players.filter(p => p.playerId !== playerToDelete.playerId);
@@ -98,7 +107,7 @@ function PlayerForm() {
             
     //    //}
     //}
-
+    
     return (
         <div className="container">
             <div className="form">
