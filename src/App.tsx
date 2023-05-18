@@ -9,7 +9,7 @@ const App: React.FC = () => {
             <div className="img_container">
                 <img src="cantanlogo.png" className="App-logo" alt="logo" />
             </div>
-
+            // call player form components
             <PlayerForm></PlayerForm>
         </div>
     );
