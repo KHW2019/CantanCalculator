@@ -1,83 +1,75 @@
 import React, { useState } from 'react';
 import './PlayerForm.css';
 import PlayerList from './PlayerList';
-import PlayerPoint from './PlayerPoints';   
 
-//setUp player Information
+
 export interface PlayerInfo {
     playerId: number;
     playerName: string;
-    playerColor: string;
+    colorOptions: colorOptions[];
 }
 
-//colorOptions Status
+
 interface colorOptions {
     color: string;
     disabled: boolean;
 }
 
-//list of avaliable colour
-const availableColors = ['Red', 'Blue', 'Green', 'Yellow', 'Black' , 'Purple']
+//List of avaliable color in the list   
+const availableColors = ['Red', 'Blue', 'Green', 'Yellow', 'Black', 'Purple']
 
-//default status of all color using map
-export const colorOptions = availableColors.map((color) => ({ color, disabled: false }));
+//create a color Option array and set the value of disabled to false
+export const colorOptionsMap: colorOptions[] = availableColors.map((color) => ({ color, disabled: false }));
 
-//Function of PlayerForm
+//PlayerForm func
 function PlayerForm() {
-    // default setting of all player inforamtion
     const [playerName, setName] = useState('');
-    const [playerColor, setColor] = useState('');
+    //const [playerColor, setColor] = useState('');
     const [Id, setId] = useState<number>(0);
-    const [players, setPlayers] = useState<PlayerInfo[]>([]);
-    const [colorOptionState, setColorOptionsState] = useState<colorOptions[]>(colorOptions);
+    const [players, setPlayers] = useState<PlayerInfo[]>([])
+    //hooking the coloroptions
+    const [colorOptionState, setColorOptionsState] = useState<colorOptions[]>(colorOptionsMap);
 
-      //add Player function trggier when button is pressed
     const addPlayer = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        
-        //check player details
-        //if name empty
         if (!playerName) {
             alert("Please entering a name")
             return;
         }
-        //if colour empty
-        else if (!playerColor) {
+        else if (colorOptionState.length === availableColors.length) {
             alert("Please select a colour")
+            
             return;
         }
-        // if player name already exist
         else if (players.some(p => p.playerName === playerName)) {
             alert("Player name already exist ")
             return;
-        } 
-        //if player number is equal or more then 6
+        }
         else if (players.length >= 6) {
             alert("You cant have more then 6 people in a game")
-            return 
+            return
+        }
+        else if (colorOptionState.some(currentColor => currentColor.disabled === true)) {
+            alert("This color has already been selected");
+            return
         } else {
-        // add player to the list 
-            const newPlayer: PlayerInfo = { playerId: Id, playerName, playerColor }; 
+            const newPlayer: PlayerInfo = { playerId: Id, playerName, colorOptions: colorOptionState }; 
             setPlayers([...players, newPlayer]);
-        
-        //set the selected color in map to ture
+
             setColorOptionsState(prevColorOptions => prevColorOptions.map((Option) => {
-                if (Option.color === playerColor) {
+                if (colorOptionState.some(color => color.color === Option.color)) {
                     return { ...Option, disabled: true };
                 }
                 return Option;
             }));
 
-            //set id base on the pervious id number +1 
             setId(prevPlayerId => prevPlayerId + 1);
-            setName('');
-            setColor('');
+            //setName('');
+            //setColorOptionsState(colorOptionsMap);
         }
     }
 
-    // update player information
     const handelEditPlayer = (editedPlayer: PlayerInfo) => {
-        // check the player id thought the map
         const updatePlayers = players.map((p) => {
             if (p.playerId === editedPlayer.playerId) {
                 return editedPlayer;
@@ -88,13 +80,11 @@ function PlayerForm() {
         setPlayers(updatePlayers);
     }
 
-    //delect player information
     const deletePlayer = (playerToDelete: PlayerInfo) => {
-        // remove other player who doesnt match the player id we are looking for
+
         const newPlayers = players.filter(p => p.playerId !== playerToDelete.playerId);
         setPlayers(newPlayers);
-        
-        //incrase the current player id in the list by 1
+
         const updatedPlayers = newPlayers.map((p, index) => ({
             ...p,
             Id: index + 1,
@@ -105,7 +95,7 @@ function PlayerForm() {
         setPlayers(prevPlayers => prevPlayers.filter(player => player.playerId !== playerToDelete.playerId));
         setColorOptionsState((prevColorOptions) =>
             prevColorOptions.map((Option) => {
-                if (Option.color === playerToDelete.playerColor) {
+                if (colorOptionState.some(color => color.color === Option.color)) {
                     return { ...Option, disabled: false }
                 }
                 return Option;
@@ -119,7 +109,7 @@ function PlayerForm() {
             
     //    //}
     //}
-    
+
     return (
         <div className="container">
             <div className="form">
@@ -139,18 +129,23 @@ function PlayerForm() {
                     <div className="playerColor_Field">
                         <label htmlFor="plyaerColor">Player Color: </label>
                         <select
-                            value={playerColor}
-                            onChange={(event) => setColor(event.target.value)}
+                            //*check is the two length of the array are same, if so stay with an empty drop box else return the selected value
+                            value={colorOptionState.length === colorOptionsMap.length ? "" : colorOptionState.map(option => option.color)}
+                            //*so it will set the display color in the player list
+                            onChange={(event) => {
+                                const selectedColors = Array.from(event.target.selectedOptions, option => option.value);
+                                setColorOptionsState(selectedColors.map(color => ({ color, disabled: false })));
+                            }}
                         >
                             <option value="" disabled>
                                 --Please Choose a color--
                             </option>
-                            {colorOptions.map((Option) => (
+                            {colorOptionsMap.map((Option) => (
                                 <option
                                     key={Option.color}
                                     value={Option.color}
                                     disabled={Option.disabled || players.some(
-                                        (p) => p.playerColor === Option.color
+                                        (p) => p.colorOptions.some(color => color.color === Option.color)
                                     )}
                                 >
                                     {Option.color}

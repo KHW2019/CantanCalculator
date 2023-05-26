@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import "./PlayerList.css"
 import { PlayerInfo } from './PlayerForm';
-import { colorOptions } from './PlayerForm';
+import { colorOptionsMap } from './PlayerForm';
 import PlayerPoints from './PlayerPoints';
 
 interface PlayerListProps {
@@ -45,7 +45,7 @@ const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit, onPlayer
                 alert("The name already exist")
             } else {
                 onPlayerEdit(editingPlayer);
-                setEditingPlayer(editingPlayer);
+                //setEditingPlayer(editingPlayer);
                 cencelEditingPlayer();
             }
             
@@ -65,7 +65,8 @@ const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit, onPlayer
                     <li className="listOfPlayerContainer" key={index}>
                         <div className="playerInform">
                             <div className="playerNameL">Name: {player.playerName}</div>
-                            <div className="playerColourL">Colour: {player.playerColor}</div>
+
+                            <div className="playerColourL">Colour: {player.colorOptions.map(color => color.color)} </div>
                             <button className="editButton" onClick={() => startEditingPlayer(player)}>
                                 Edit
                             </button>
@@ -93,17 +94,20 @@ const PlayerList: React.FC<PlayerListProps> = ({ players, onPlayerEdit, onPlayer
                         <div>
                             <label className="editPlayerColor">PlayerColor: </label>
                             <select
-                                value={editingPlayer.playerColor}
-                                onChange={(event) => setEditingPlayer({ ...editingPlayer, playerColor: event.target.value })}
+                                value={editingPlayer.colorOptions.length === colorOptionsMap.length ? "" : editingPlayer.colorOptions.map(color => color.color)}
+                                onChange={(event) => {
+                                    const selectedColor = Array.from(event.target.selectedOptions, option => option.value);
+                                    setEditingPlayer({ ...editingPlayer, colorOptions: selectedColor.map(color => ({ color, disabled: false })) });
+                                }}
                             >
                                 <option value="" disabled>
                                     --Please Choose a color--
                                 </option>
-                                {colorOptions.map((Option) => (
+                                {colorOptionsMap.map((Option) => (
                                     <option
                                         key={Option.color}
                                         value={Option.color}
-                                        disabled={Option.disabled || players.some(p => p.playerColor === Option.color)}
+                                        disabled={Option.disabled || players.some(p => p.colorOptions.some(color => color.color === Option.color))}
                                     >
                                         {Option.color}
                                     </option>
